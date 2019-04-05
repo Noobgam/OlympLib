@@ -1,4 +1,6 @@
 google*
+debug
+release
 bin
 lib
 CMakeCache.txt
