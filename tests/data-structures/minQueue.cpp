@@ -78,7 +78,7 @@ TEST(correctness, fuzzy_pushpop_reserve) {
     }
 }
 
-const int STRESS_ITER = 1e8;
+const int STRESS_ITER = 1e9;
 vector <int> fuzzy_pushpop(int STRESS_ITER=::STRESS_ITER) {
     Srand(228);
     MinQueue<int> a;

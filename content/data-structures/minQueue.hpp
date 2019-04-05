@@ -19,6 +19,7 @@ namespace olymplib {
     template <class T>
     struct FunctorQueue<T, NPrivate::Minner> {
         std::vector<std::pair<T, T>> front, back;
+        size_t fsize = 0, bsize = 0;
         
         FunctorQueue() {}
 
@@ -27,36 +28,39 @@ namespace olymplib {
             back.reserve(t);
         }
 
-      static void push_to_vector(std::vector<std::pair<T, T>>& vec, const T& t) {
-            if (vec.empty()) {
-                vec.push_back({t, t});
-            } else {
-                vec.push_back({t, std::min(vec.back().second, t)});
-            }
+        
+        // must be nonempty. UB otherwise
+        static void push_to_vector(std::vector<std::pair<T, T>>& vec, const T& t) {
+            vec.push_back({t, std::min(vec.back().second, t)});
         }
 
         bool empty() const {
-            return front.empty() && back.empty();
+            return fsize == 0 && bsize == 0;
         }
 
         size_t size() const {
-            return front.size() + back.size();
+            return fsize + bsize;
         }
 
         // use at your own risk
         void push_back(const T& t) {
-            push_to_vector(back, t);
+            if (bsize == 0) back = {{t,t}};
+            else push_to_vector(back, t);
+            ++bsize;
         }
 
         void push_front(const T& t) {
-            push_to_vector(front, t);
+            if (fsize == 0) front = {{t,t}};
+            else push_to_vector(front, t);
+            ++fsize;
         }
 
         inline void push(const T& t) { return push_back(t); }
 
         void pop_front() {
-            if (front.empty()) {
+            if (fsize == 0) {
                 front.swap(back);
+                std::swap(fsize, bsize);
                 reverse(front.begin(), front.end());
                 front[0].second = front[0].first;
                 for (size_t i = 1; i < front.size(); ++i) {
@@ -64,11 +68,13 @@ namespace olymplib {
                 }                
             }
             front.pop_back();
+            --fsize;
         }
 
         void pop_back() {
-            if (back.empty()) {
+            if (bsize == 0) {
                 back.swap(front);
+                std::swap(fsize, bsize);
                 reverse(back.begin(), back.end());
                 back[0].second = back[0].first;
                 for (size_t i = 1; i < back.size(); ++i) {
@@ -76,15 +82,16 @@ namespace olymplib {
                 }
             }
             back.pop_back();
+            --bsize;
         }
 
         inline void pop() { return pop_front(); }
 
         T get_min() {
-            if (!front.empty() && !back.empty()) {
-                return std::min(front.back().second, back.back().second);
+            if (fsize > 0 && bsize > 0) {
+                return std::min(front[fsize - 1].second, back[bsize - 1].second);
             }
-            return front.empty() ? back.back().second : front.back().second;
+            return fsize == 0 ? back[bsize - 1].second : front[fsize - 1].second;
         }
     };
 
