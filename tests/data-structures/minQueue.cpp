@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "data-structures/minQueue.hpp"
-#include <random>
+#include "utility/random.hpp"
 #include <set>
 #include <queue>
 
@@ -25,15 +25,15 @@ TEST(correctness, pushpop) {
 TEST(correctness, fuzzy_pushpop) {
     const int ITER = 1e4;
     for (int seed = 0; seed < 10; ++seed) {
-        srand(seed);
+        Srand(seed);
         MinQueue<int> a;
         multiset<int> ss;
         queue <int> q;
         for (int i = 0; i < ITER; ++i) {
             int type = 0;
-            if (ss.size() != 0) type = rand() % 2;
+            if (ss.size() != 0) type = Rand() % 2;
             if (type == 0) {
-                int val = rand();
+                int val = Rand();
                 ss.insert(val);
                 q.push(val);
                 a.push(val);
@@ -53,15 +53,15 @@ TEST(correctness, fuzzy_pushpop) {
 TEST(correctness, fuzzy_pushpop_reserve) {
     const int ITER = 1e4;
     for (int seed = 0; seed < 10; ++seed) {
-        srand(seed);
+        Srand(seed);
         MinQueue<int> a(ITER / 2);
         multiset<int> ss;
         queue <int> q;
         for (int i = 0; i < ITER; ++i) {
             int type = 0;
-            if (ss.size() != 0) type = rand() % 2;
+            if (ss.size() != 0) type = Rand() % 2;
             if (type == 0) {
-                int val = rand();
+                int val = Rand();
                 ss.insert(val);
                 q.push(val);
                 a.push(val);
@@ -78,9 +78,9 @@ TEST(correctness, fuzzy_pushpop_reserve) {
     }
 }
 
-const int STRESS_ITER = 1e9;
+const int STRESS_ITER = 1e8;
 vector <int> fuzzy_pushpop(int STRESS_ITER=::STRESS_ITER) {
-    srand(228);
+    Srand(228);
     MinQueue<int> a;
     vector <int> res;
     res.reserve(STRESS_ITER);
@@ -88,9 +88,9 @@ vector <int> fuzzy_pushpop(int STRESS_ITER=::STRESS_ITER) {
     for (int i = 0; i < STRESS_ITER; ++i) {
         int type = 0;
         if (sz != 0) 
-            type = rand() % 2;
+            type = Rand() % 2;
         if (type == 0) {
-            int val = rand();
+            int val = Rand();
             a.push(val);
             ++sz;
         } else {
@@ -105,7 +105,7 @@ vector <int> fuzzy_pushpop(int STRESS_ITER=::STRESS_ITER) {
 }
 
 vector<int> fuzzy_pushpop_stl(int STRESS_ITER=::STRESS_ITER) {
-    srand(228);
+    Srand(228);
     size_t sz = 0;
     multiset<int> ss;
     queue <int> q;
@@ -113,9 +113,9 @@ vector<int> fuzzy_pushpop_stl(int STRESS_ITER=::STRESS_ITER) {
     res.reserve(STRESS_ITER);
     for (int i = 0; i < STRESS_ITER; ++i) {
         int type = 0;
-        if (!ss.empty()) type = rand() % 2;
+        if (!ss.empty()) type = Rand() % 2;
         if (type == 0) {
-            int val = rand();
+            int val = Rand();
             ss.insert(val);
             q.push(val);
         } else {
@@ -131,7 +131,7 @@ vector<int> fuzzy_pushpop_stl(int STRESS_ITER=::STRESS_ITER) {
 }
 
 vector <int> fuzzy_pushpop_dualstack(int STRESS_ITER=::STRESS_ITER) {
-    srand(228);
+    Srand(228);
     size_t sz = 0;
     vector <pair<int,int>> a, b;
     vector <int> res;
@@ -151,9 +151,9 @@ vector <int> fuzzy_pushpop_dualstack(int STRESS_ITER=::STRESS_ITER) {
     };
     for (int i = 0; i < STRESS_ITER; ++i) {
         int type = 0;
-        if (sz != 0) type = rand() % 2;
+        if (sz != 0) type = Rand() % 2;
         if (type == 0) {
-            int val = rand();
+            int val = Rand();
             push_to_vector(b, val);
             ++sz;
         } else {
@@ -176,7 +176,7 @@ vector <int> fuzzy_pushpop_dualstack(int STRESS_ITER=::STRESS_ITER) {
 }
 
 vector<int> fuzzy_pushpop_reserve(int STRESS_ITER=::STRESS_ITER) {
-    srand(228);
+    Srand(228);
     MinQueue<int> a(STRESS_ITER / 2);
     size_t sz = 0;
     vector <int> res;
@@ -184,9 +184,9 @@ vector<int> fuzzy_pushpop_reserve(int STRESS_ITER=::STRESS_ITER) {
     for (int i = 0; i < STRESS_ITER; ++i) {
         int type = 0;
         if (sz != 0) 
-            type = rand() % 2;
+            type = Rand() % 2;
         if (type == 0) {
-            int val = rand();
+            int val = Rand();
             a.push(val);
             ++sz;
         } else {
@@ -223,6 +223,6 @@ TEST(stress, stress_fuzzy_dualstack) {
     auto v3 = fuzzy_pushpop_dualstack();
 }
 
-TEST(stress, stress_fuzzy_stl) {
-    auto v4 = fuzzy_pushpop_stl();
-}
+//TEST(stress, stress_fuzzy_stl) {
+//    auto v4 = fuzzy_pushpop_stl();
+//}

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.2)
 project(olymplib)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS -std=c++17)
+  set(CMAKE_CXX_FLAGS "-std=c++17 -fno-omit-frame-pointer")
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -fno-exceptions -pedantic")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -g")
 endif()
@@ -46,6 +46,7 @@ include_directories(
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(olymplib-tests 
     content/data-structures/minQueue.hpp
+    content/utility/random.hpp
     tests/data-structures/minQueue.cpp
 )
 
