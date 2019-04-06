@@ -46,8 +46,10 @@ include_directories(
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(olymplib-tests 
     content/data-structures/minQueue.hpp
-    content/utility/random.hpp
+    content/utility/random.cpp
+
     tests/data-structures/minQueue.cpp
+    tests/number-theory/gcd.cpp
 )
 
 target_link_libraries(olymplib-tests gtest_main -lpthread)

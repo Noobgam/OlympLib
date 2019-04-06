@@ -1,12 +1,10 @@
-
-#ifndef OLYMPLIB_RANDOM
-#define OLYMPLIB_RANDOM
+#include <utility>
 
 namespace olymplib {
 
-    static size_t x=123456789, y=362436069, z=521288629;
+    static std::size_t x=123456789, y=362436069, z=521288629;
 
-    void Srand(size_t seed) {
+    void Srand(std::size_t seed) {
         x=123456789, y=362436069, z=521288629;
         y ^= seed;
         y ^= (y << 16);
@@ -14,8 +12,8 @@ namespace olymplib {
         z ^= (z << 16);
     }
 
-    size_t Rand() {
-       size_t t;
+    std::size_t Rand() {
+       std::size_t t;
        x ^= x << 16;
        x ^= x >> 5;
        x ^= x << 1;
@@ -28,5 +26,3 @@ namespace olymplib {
        return z;
     }
 }
-
-#endif

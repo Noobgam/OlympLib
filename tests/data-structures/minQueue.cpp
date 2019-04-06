@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "data-structures/minQueue.hpp"
-#include "utility/random.hpp"
+#include "utility/random.h"
 #include <set>
 #include <queue>
 
