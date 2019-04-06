@@ -13,12 +13,51 @@ TEST(correctness, pushpop) {
     EXPECT_EQ(a.get_min(), 2);
     a.push(4);
     EXPECT_EQ(a.get_min(), 2);
+    a.push(2);
+    EXPECT_EQ(a.get_min(), 2);
+    a.push(1);
+    EXPECT_EQ(a.get_min(), 1);
+    a.push(-3);
+    EXPECT_EQ(a.get_min(), -3);
+    a.push(4);
+    EXPECT_EQ(a.get_min(), -3);
+
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
     a.pop();
     EXPECT_EQ(a.get_min(), 4);
-    a.push(3);
-    EXPECT_EQ(a.get_min(), 3);
     a.pop();
-    EXPECT_EQ(a.get_min(), 3);
+
+
+    a.push(2);
+    EXPECT_EQ(a.get_min(), 2);
+    a.push(4);
+    EXPECT_EQ(a.get_min(), 2);
+    a.push(2);
+    EXPECT_EQ(a.get_min(), 2);
+    a.push(1);
+    EXPECT_EQ(a.get_min(), 1);
+    a.push(-3);
+    EXPECT_EQ(a.get_min(), -3);
+    a.push(4);
+    EXPECT_EQ(a.get_min(), -3);
+
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), -3);
+    a.pop();
+    EXPECT_EQ(a.get_min(), 4);
     a.pop();
 }
 
